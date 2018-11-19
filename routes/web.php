@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/','prueba');
+Route::get('/getList', 'ProccessPayment@getBankList');
+Route::post('/send' , 'ProccessPayment@store')->name('payment');
