@@ -18,6 +18,7 @@ class ProccessPayment extends Controller
         if ($request->ajax()) {
             $soap = new PlaceToPay\Soap();
             $response = $soap->init();
+            
             return response()->json( array('status'=> true, 'message'=> $response ) );
         } else {
            return response()->json(array( 'status' => false, 'message' => 'peticion no permitida' ));

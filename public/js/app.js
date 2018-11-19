@@ -47511,11 +47511,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      banks: {}
+      banks: [],
+      type_person: [],
+      method_pay: "",
+      banks_select: ""
     };
   },
   mounted: function mounted() {
@@ -47538,15 +47550,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     /* Obtener el formulario */
     get_form: function get_form() {
-      return {};
+      return { "tipo_persona": this.type_person, "bank": this.banks, "method_pay": method_pay };
     },
     getBankList: function getBankList() {
       var _this = this;
 
       axios.get('/getList').then(function (response) {
         if (response.data.result == 1) {
+          var bank = _this.banks;
+          response.data.data.forEach(function (value) {
+            console.log(value);
 
-          _this.banks = response.data.data;
+            bank.push(value);
+
+            //this.banks = response.data.data
+          });
         }
       });
     }
@@ -47567,7 +47585,7 @@ var render = function() {
       _c("div", { staticClass: "col-md-8" }, [
         _c("div", { staticClass: "card card-default" }, [
           _c("div", { staticClass: "card-header" }, [
-            _vm._v("Formulario enviar data")
+            _vm._v("Formulario Confirmación de pago")
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
@@ -47578,7 +47596,93 @@ var render = function() {
                 attrs: { action: "index.html", method: "post" }
               },
               [
-                _vm._m(0),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "method" } }, [
+                    _vm._v("Medio de pago")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.method_pay,
+                          expression: "method_pay"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "metodo" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.method_pay = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "_PSE_" } }, [
+                        _vm._v("Débito a cuentas corrientes y ahorros (PSE)")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [
+                    _vm._v("Tipo de persona")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.type_person,
+                          expression: "type_person"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "bankInterface", required: "true" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.type_person = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "0" } }, [
+                        _vm._v("Natural")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "1" } }, [
+                        _vm._v("Juridica")
+                      ])
+                    ]
+                  )
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "" } }, [_vm._v("Lista Bancos")]),
@@ -47590,8 +47694,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.banks,
-                          expression: "banks"
+                          value: _vm.banks_select,
+                          expression: "banks_select"
                         }
                       ],
                       staticClass: "form-control",
@@ -47606,7 +47710,7 @@ var render = function() {
                               var val = "_value" in o ? o._value : o.value
                               return val
                             })
-                          _vm.banks = $event.target.multiple
+                          _vm.banks_select = $event.target.multiple
                             ? $$selectedVal
                             : $$selectedVal[0]
                         }
@@ -47621,8 +47725,6 @@ var render = function() {
                     })
                   )
                 ]),
-                _vm._v(" "),
-                _vm._m(1),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -47641,34 +47743,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "" } }),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", name: "", value: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "" } }),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", name: "", value: "" }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
