@@ -10,11 +10,9 @@
                       <form class="form" action="index.html" method="post">
                         <div class="form-group">
                             <label for="method">Medio de pago</label>
-
                             <select class="form-control" name="metodo" v-model="method_pay">
-
                                 <option value="_PSE_">Débito a cuentas corrientes y ahorros (PSE)</option>
-
+                                <option value="_TC_">Tarjeta de Crédito</option>
                             </select>
                         </div>
 
@@ -33,7 +31,7 @@
                             </select>
                           </div>
 
-                          <button v-on:click="register"  type="button" name="button" class="btn btn-success" >Enviar</button>
+                          <button v-on:click="register"  type="button" name="button" class="btn btn-success btn-block" >Enviar</button>
                       </form>
 
                     </div>
@@ -47,9 +45,9 @@
     export default {
         data :function (){
           return {
-            banks : [],
+            banks       : [],
             type_person : [],
-            method_pay : "",
+            method_pay  : "",
             banks_select: ""
           }
         },
@@ -64,7 +62,6 @@
              let data = this.get_form();
              axios.post('/send' ,  data ).then( response => function(){
 
-               console.log( response );
                if ( response.result == 1 ) {
 
                }
@@ -74,19 +71,15 @@
           },
           /* Obtener el formulario */
           get_form : function (){
-            return { "tipo_persona" : this.type_person, "bank" : this.banks, "method_pay":method_pay };
+              return { "tipo_persona" : this.type_person, "bank" : this.banks, "method_pay":method_pay };
           },
           getBankList: function (){
 
             axios.get('/getList').then((response) => {
               if (response.data.result == 1) {
-                let bank = this.banks
+                  let bank = this.banks
                   response.data.data.forEach(function( value ){
-                    console.log( value )
-
                     bank.push(value)
-
-                    //this.banks = response.data.data
                   })
               }
 
