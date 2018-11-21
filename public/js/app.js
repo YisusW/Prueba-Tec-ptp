@@ -47517,7 +47517,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       banks: [],
       type_person: [],
       method_pay: "",
-      banks_select: ""
+      role_selected: "",
+      banks_selected: ""
     };
   },
   mounted: function mounted() {
@@ -47539,7 +47540,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     /** Obtener el formulario */
     get_form: function get_form() {
-      return { "tipo_persona": this.type_person, "bank": this.banks, "method_pay": method_pay };
+      return { "tipo_persona": this.role_selected, "bank": this.banks_selected, "method_pay": this.method_pay };
     },
     /** getBankList */
     getBankList: function getBankList() {
@@ -47652,8 +47653,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.type_person,
-                          expression: "type_person"
+                          value: _vm.role_selected,
+                          expression: "role_selected"
                         }
                       ],
                       staticClass: "form-control",
@@ -47668,7 +47669,7 @@ var render = function() {
                               var val = "_value" in o ? o._value : o.value
                               return val
                             })
-                          _vm.type_person = $event.target.multiple
+                          _vm.role_selected = $event.target.multiple
                             ? $$selectedVal
                             : $$selectedVal[0]
                         }
@@ -47692,8 +47693,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.banks_select,
-                          expression: "banks_select"
+                          value: _vm.banks_selected,
+                          expression: "banks_selected"
                         }
                       ],
                       staticClass: "form-control",
@@ -47708,7 +47709,7 @@ var render = function() {
                               var val = "_value" in o ? o._value : o.value
                               return val
                             })
-                          _vm.banks_select = $event.target.multiple
+                          _vm.banks_selected = $event.target.multiple
                             ? $$selectedVal
                             : $$selectedVal[0]
                         }

@@ -18,14 +18,14 @@
 
                           <div class="form-group">
                               <label for="">Tipo de persona</label>
-                              <select class="form-control" name="bankInterface" required="true" v-model="type_person" >
+                              <select class="form-control" name="bankInterface" required="true" v-model="role_selected" >
                                 <option v-for="value in type_person"
                                         :value="value.id">{{ value.description }} </option>
                               </select>
                           </div>
                           <div class="form-group">
                             <label for="">Lista Bancos</label>
-                            <select class="form-control" name="" v-model="banks_select">
+                            <select class="form-control" name="" v-model="banks_selected">
                               <option v-for="value in banks"
                                       :value="value.bankCode">{{ value.bankName }} </option>
                             </select>
@@ -48,7 +48,8 @@
             banks       : [],
             type_person : [],
             method_pay  : "",
-            banks_select: ""
+            role_selected: "",
+            banks_selected: ""
           }
         },
         mounted() {
@@ -71,7 +72,7 @@
           },
           /** Obtener el formulario */
           get_form : function (){
-              return { "tipo_persona" : this.type_person, "bank" : this.banks, "method_pay":method_pay };
+              return { "tipo_persona" : this.role_selected, "bank" : this.banks_selected, "method_pay":this.method_pay };
           },
           /** getBankList */
           getBankList: function (){
