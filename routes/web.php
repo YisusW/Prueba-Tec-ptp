@@ -19,3 +19,4 @@ Route::get('/','ProccessPayment@payerForm')->name('form');
 Route::post('/send-person' , 'PersonController@store');
 Route::post('/send' , 'ProccessPayment@store')->name('payment');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/getDepartaments' , 'DepartamentController@listDepartaments');

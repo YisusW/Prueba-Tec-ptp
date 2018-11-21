@@ -37,6 +37,20 @@
                             <input type="email" name="email" value="" v-model="email" class="form-control">
                           </div>
 
+
+                          <div class="form-group">
+                              <label for="method">Departamento</label>
+                              <select class="form-control" name="departament" v-model="departaments">
+                               <option value=""></option>
+                              </select>
+                          </div>                    
+                          <div class="form-group">
+                              <label for="method">Ciudad</label>
+                              <select class="form-control" name="city" v-model="city">
+                                <option value=""></option>
+                              </select>
+                          </div>
+
                           <button v-on:click="register"  type="button" name="button" class="btn btn-success btn-block" >Enviar</button>
                       </form>
 
@@ -51,12 +65,17 @@
     export default {
         data :function (){
           return {
+            departaments  : [],
+            cities        : [],
             type_document : "",
             documnet      : "",
             email         : "",
             nombre        : "",
             apellido      : ""
           }
+        },
+        mounted(){
+          this.getDepartaments();
         },
         methods :{
           /** Mandar el formulario  */
@@ -76,13 +95,13 @@
           get_form : function (){
               return { "email" : this.email, "apellido" : this.apellido, "nombre":this.nombre , "documnet" : this.documnet , "type_document" : this.type_document };
           },
-          getBankList: function (){
+          getDepartaments: function (){
 
-            axios.get('/getList').then((response) => {
+            axios.get('/getDepartaments').then((response) => {
               if (response.data.result == 1) {
-                  let bank = this.banks
+                  let states = this.departaments
                   response.data.data.forEach(function( value ){
-                    bank.push(value)
+                    states.push(value)
                   })
               }
 

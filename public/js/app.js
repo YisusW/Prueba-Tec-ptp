@@ -47854,6 +47854,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -47865,6 +47879,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       apellido: ""
     };
   },
+  mounted: function mounted() {
+    this.getDepartaments();
+  },
+
   methods: {
     /** Mandar el formulario  */
     register: function register() {
@@ -47883,10 +47901,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     get_form: function get_form() {
       return { "email": this.email, "apellido": this.apellido, "nombre": this.nombre, "documnet": this.documnet, "type_document": this.type_document };
     },
-    getBankList: function getBankList() {
+    getDepartaments: function getDepartaments() {
       var _this = this;
 
-      axios.get('/getList').then(function (response) {
+      axios.get('/getDepartaments').then(function (response) {
         if (response.data.result == 1) {
           var bank = _this.banks;
           response.data.data.forEach(function (value) {
@@ -48087,6 +48105,80 @@ var render = function() {
                       }
                     }
                   })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "method" } }, [
+                    _vm._v("Departamento")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.departament,
+                          expression: "departament"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "departament" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.departament = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [_c("option", { attrs: { value: "" } })]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "method" } }, [_vm._v("Ciudad")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.city,
+                          expression: "city"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "city" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.city = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [_c("option", { attrs: { value: "" } })]
+                  )
                 ]),
                 _vm._v(" "),
                 _c(
