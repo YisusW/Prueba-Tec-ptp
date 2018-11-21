@@ -13,7 +13,8 @@
 
 
 Route::view('/bankForm/{id_person?}','banckList');
-Route::get('/getList', 'ProccessPayment@getBankList');
+Route::get('/getBankList', 'ProccessPayment@getBankList');
+Route::get('/getRoleList', 'RoleController@roleList');
 Route::get('/','ProccessPayment@payerForm')->name('form');
 Route::post('/send-person' , 'PersonController@store');
 Route::post('/send' , 'ProccessPayment@store')->name('payment');

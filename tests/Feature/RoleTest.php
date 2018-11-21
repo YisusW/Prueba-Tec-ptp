@@ -22,21 +22,34 @@ class RoleTest extends TestCase
     private function setController(){
        $this->controller = new \PlaceToPay\Http\Controllers\RoleController;
     }
-
+    /**
+     * A basic getroles function.
+     *
+     * @return void
+     */
     public function testGetroles()
     {   $this->setController();
         $this->assertTrue(is_object($this->controller->getRoleActive()));
     }
-
+    /**
+     * A basic getroles function.
+     *
+     * @return void
+     */
     public function testPushrole()
     {
         $this->setController();
-        $this->assertTrue($this->controller->storeRole(null, 'Paranormal') == true);
+        $this->assertTrue($this->controller->storeRole(null, 'Otros') == true);
 
     }
+    /**
+     * A basic getroles function.
+     *
+     * @return void
+     */
     public function testCheckrole()
     {
         $this->setController();
-        $this->assertFalse($this->controller->storeRole(null, 'Paranormal') == true);
+        $this->assertFalse($this->controller->storeRole(null, 'Otros') == true);
     }
 }

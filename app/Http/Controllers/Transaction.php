@@ -25,7 +25,7 @@ class Transaction extends Controller
         'tipAmount'      => (float)250.0,
         'payer'          => $persona,
         'buyer'          => $persona,
-        'shipping'       =>$persona,
+        'shipping'       => $persona,
         'ipAddress'      => "127.0.0.1" ,
         'userAgent'      => $_SERVER['HTTP_USER_AGENT'] );
 

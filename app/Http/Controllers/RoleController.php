@@ -7,10 +7,15 @@ use PlaceToPay\Role;
 
 class RoleController extends Controller
 {
+
+    public function roleList()
+    {
+          return response()->json(array('result'=>1, 'data'=>$this->getRoleActive()));
+    }
     //
     public function getRoleActive()
     {
-          return Role::where('status' , 1)->get();
+          return Role::where('status' , 1)->get(["id","description"]);
     }
 
     public function checkRole($description)

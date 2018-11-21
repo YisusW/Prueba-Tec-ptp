@@ -19,15 +19,15 @@
                           <div class="form-group">
                               <label for="">Tipo de persona</label>
                               <select class="form-control" name="bankInterface" required="true" v-model="type_person" >
-                                  <option value="0">Natural</option>
-                                  <option value="1">Juridica</option>
+                                <option v-for="value in type_person"
+                                        :value="value.id">{{ value.description }} </option>
                               </select>
                           </div>
                           <div class="form-group">
                             <label for="">Lista Bancos</label>
                             <select class="form-control" name="" v-model="banks_select">
-                              <option v-for="package in banks"
-                                      :value="package.bankCode">{{ package.bankName }} </option>
+                              <option v-for="value in banks"
+                                      :value="value.bankCode">{{ value.bankName }} </option>
                             </select>
                           </div>
 
@@ -46,13 +46,14 @@
         data :function (){
           return {
             banks       : [],
-            type_person : "",
+            type_person : [],
             method_pay  : "",
             banks_select: ""
           }
         },
         mounted() {
             this.getBankList()
+            this.getRoleList()
         },
         methods :{
           /** Mandar el formulario  */
@@ -75,7 +76,7 @@
           /** getBankList */
           getBankList: function (){
 
-            axios.get('/getList').then((response) => {
+            axios.get('/getBankList').then((response) => {
               if (response.data.result == 1) {
                   let bank = this.banks
                   response.data.data.forEach(function( value ){
@@ -84,9 +85,20 @@
               }
 
             })
+          },
+          /** getBankList */
+          getRoleList: function (){
 
+            axios.get('/getRoleList').then((response) => {
+              if (response.data.result == 1) {
+                  let role = this.type_person
+                  response.data.data.forEach(function( value ){
+                    role.push(value)
+                  })
+              }
+
+            })
           }
-
         }
     }
 </script>
