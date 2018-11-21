@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Place To Pay\User::class,
+            'model' => PlaceToPay\User::class,
         ],
 
         // 'users' => [

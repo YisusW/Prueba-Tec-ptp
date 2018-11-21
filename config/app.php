@@ -154,11 +154,11 @@ return [
         /*
          * Application Service Providers...
          */
-        Place To Pay\Providers\AppServiceProvider::class,
-        Place To Pay\Providers\AuthServiceProvider::class,
-        // Place To Pay\Providers\BroadcastServiceProvider::class,
-        Place To Pay\Providers\EventServiceProvider::class,
-        Place To Pay\Providers\RouteServiceProvider::class,
+        PlaceToPay\Providers\AppServiceProvider::class,
+        PlaceToPay\Providers\AuthServiceProvider::class,
+        PlaceToPay\Providers\BroadcastServiceProvider::class,
+        PlaceToPay\Providers\EventServiceProvider::class,
+        PlaceToPay\Providers\RouteServiceProvider::class,
 
     ],
 
