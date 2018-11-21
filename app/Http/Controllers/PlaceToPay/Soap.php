@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\PlaceToPay;
+namespace PlaceToPay\Http\Controllers\PlaceToPay;
 
 use SoapClient;
 

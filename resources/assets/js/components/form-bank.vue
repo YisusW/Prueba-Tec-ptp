@@ -46,13 +46,12 @@
         data :function (){
           return {
             banks       : [],
-            type_person : [],
+            type_person : "",
             method_pay  : "",
             banks_select: ""
           }
         },
         mounted() {
-            console.log('Component mounted.')
             this.getBankList()
         },
         methods :{
@@ -66,13 +65,14 @@
 
                }
 
-             })
+             });
 
           },
-          /* Obtener el formulario */
+          /** Obtener el formulario */
           get_form : function (){
               return { "tipo_persona" : this.type_person, "bank" : this.banks, "method_pay":method_pay };
           },
+          /** getBankList */
           getBankList: function (){
 
             axios.get('/getList').then((response) => {

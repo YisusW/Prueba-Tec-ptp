@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div id="app"  class="col-md-8">
-          <form-get></form-get>
+          <form-bank></form-bank>
         </div>
     </div>
 </div>

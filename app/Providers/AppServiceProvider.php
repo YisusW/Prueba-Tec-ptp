@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace PlaceToPay\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

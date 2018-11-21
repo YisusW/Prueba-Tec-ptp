@@ -13,7 +13,6 @@ class DatabaseDesarrollo extends Migration
      */
     public function up()
     {
-
         // tabla country
         Schema::create('country', function (Blueprint $table) {
             $table->increments('id');
@@ -55,7 +54,7 @@ class DatabaseDesarrollo extends Migration
             $table->timestamps();
         });
         // tabla type_roll
-        Schema::create('type_roll', function (Blueprint $table) {
+        Schema::create('role', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
             $table->boolean('status');
@@ -63,33 +62,32 @@ class DatabaseDesarrollo extends Migration
         });
 
         // tabla person_type_roll
-        Schema::create('person_type_roll', function (Blueprint $table) {
+        Schema::create('person_role', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('person_id');
             $table->foreign('person_id')->references('id')->on('person');
-            $table->unsignedInteger('type_roll_id');
-            $table->foreign('type_roll_id')->references('id')->on('type_roll');
+            $table->unsignedInteger('role_id');
+            $table->foreign('role_id')->references('id')->on('role');
             $table->boolean('status');
             $table->timestamps();
         });
 
-        // tabla person_type_roll
+        // tabla bank
         Schema::create('bank', function (Blueprint $table) {
             $table->increments('id');
             $table->string('method_pay');
-            $table->string('type_person');
             $table->string('code_bank');
             $table->boolean('status');
             $table->timestamps();
         });
 
-        // tabla person_type_roll
-        Schema::create('banck_person', function (Blueprint $table) {
+        // tabla bank_person
+        Schema::create('bank_person', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('bank_id');
             $table->foreign('bank_id')->references('id')->on('bank');
-            $table->unsignedInteger('person_roll_id');
-            $table->foreign('person_roll_id')->references('id')->on('person_type_roll');
+            $table->unsignedInteger('person_role_id');
+            $table->foreign('person_role_id')->references('id')->on('person_role');
             $table->boolean('status');
             $table->timestamps();
         });
@@ -103,6 +101,13 @@ class DatabaseDesarrollo extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('bank_person');
+        Schema::drop('person_role');
+        Schema::drop('role');
+        Schema::drop('bank');
+        Schema::drop('person');
+        Schema::drop('city');
+        Schema::drop('state');
+        schema::drop('country');
     }
 }

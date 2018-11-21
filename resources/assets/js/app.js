@@ -17,7 +17,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-Vue.component('form-get', require('./components/form-get.vue'));
+Vue.component('form-bank', require('./components/form-bank.vue'));
 
 Vue.component('form-person', require('./components/form-person.vue'));
 
