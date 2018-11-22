@@ -52,12 +52,12 @@ class CityTest extends TestCase
     public function testPushCity()
     {
         $this->setController();
-        $id_state = "";
-        $city =  "Medellin";
-        if ($this->controller->checkCity($city, $id_state) == true) {
+        $id_state = 10;
+        $city =  "Bello";
+        if ($this->controller->checkCity($city, $id_state) == false) {
             $this->assertTrue($this->controller->pushCity($city, $id_state));
         } else {
-            $this->assertFalse($this->controller->checkCity($city, $id_state));
+            $this->assertTrue($this->controller->checkCity($city, $id_state));
         }
 
     }

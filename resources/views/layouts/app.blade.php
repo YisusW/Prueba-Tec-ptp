@@ -50,7 +50,11 @@
             @yield('content')
         </main>
 
-        <footer>Desarrollado por Jesus Ochoa</footer>
     </div>
+    <footer class="footer">
+      <div class="container">
+        <span class="text-secundary">Desarrollado por Jesus Ochoa</span>
+      </div>
+    </footer>
 </body>
 </html>

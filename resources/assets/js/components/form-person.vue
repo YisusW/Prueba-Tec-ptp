@@ -24,12 +24,12 @@
 
                         <div class="form-group">
                             <label for="method">Nómbre</label>
-                            <input type="text" name="name" class="form-control" required="true" v-model="nombre" >
+                            <input type="text" name="name" class="form-control" required="true" v-model="firstname" >
                         </div>
 
                           <div class="form-group">
                               <label for="">Apellido</label>
-                              <input type="text" name="last_name" class="form-control" required="true" v-model="apellido" >
+                              <input type="text" name="last_name" class="form-control" required="true" v-model="lastname" >
                           </div>
 
                           <div class="form-group">
@@ -40,15 +40,22 @@
 
                           <div class="form-group">
                               <label for="method">Departamento</label>
-                              <select class="form-control" name="departament" v-model="departaments">
-                               <option value=""></option>
+                              <select class="form-control" name="departament" v-model="departament" v-on:change="getCities" >
+                               <option v-for="value in departaments"
+                                       :value="value.id">{{ value.description }} </option>
                               </select>
-                          </div>                    
+                          </div>
                           <div class="form-group">
                               <label for="method">Ciudad</label>
                               <select class="form-control" name="city" v-model="city">
-                                <option value=""></option>
+                                <option v-for="value in cities"
+                                        :value="value.id">{{ value.description }} </option>
                               </select>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="">Dirección</label>
+                              <textarea name="name" class="form-control" v-model="address"></textarea>
                           </div>
 
                           <button v-on:click="register"  type="button" name="button" class="btn btn-success btn-block" >Enviar</button>
@@ -67,11 +74,14 @@
           return {
             departaments  : [],
             cities        : [],
+            departament   : "",
+            city          : "",
+            address       : "",
             type_document : "",
             documnet      : "",
             email         : "",
-            nombre        : "",
-            apellido      : ""
+            firstname     : "",
+            lastname      : ""
           }
         },
         mounted(){
@@ -93,21 +103,43 @@
           },
           /* Obtener el formulario */
           get_form : function (){
-              return { "email" : this.email, "apellido" : this.apellido, "nombre":this.nombre , "documnet" : this.documnet , "type_document" : this.type_document };
+            return  {"email"         : this.email,
+              "apellido"      : this.apellido,
+              "nombre"        : this.nombre ,
+              "documnet"      : this.documnet ,
+              "type_document" : this.type_document,
+              "address"       : this.address,
+              "city"          : this.city
+            }
+
           },
+          /* Lista de departamentos */
           getDepartaments: function (){
 
-            axios.get('/getDepartaments').then((response) => {
-              if (response.data.result == 1) {
-                  let states = this.departaments
-                  response.data.data.forEach(function( value ){
-                    states.push(value)
-                  })
-              }
+              axios.get('/getDepartaments').then((response) => {
+                if (response.data.result == 1) {
+                    let states = this.departaments
+                    response.data.data.forEach(function( value ){
+                      states.push(value)
+                    })
+                }
 
-            })
+              });
 
-          }
+          },
+          /* Lista de ciudades */
+          getCities : function(){
+              let state = this.departament;
+              axios.get('/getCitiesByState/'+state+'/').then((response) => {
+                if (response.data.result == 1) {
+                    let city = this.cities
+                    response.data.data.forEach(function( value ){
+                      city.push(value)
+                    })
+                }
+
+              });
+          },
 
         }
     }

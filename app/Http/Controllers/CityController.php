@@ -16,7 +16,7 @@ class CityController extends Controller
 
     public function getCitiesByState( $state_id )
     {
-         return City::where('status',1)->where('id_state' , $state_id)->get(["id","description"]);
+         return City::where('status',1)->where('state_id' , $state_id)->get(["id","description"]);
     }
     /**
      *
@@ -41,19 +41,19 @@ class CityController extends Controller
 
     public function checkCity( $description , $id_state )
     {
-         $city = City::where('state_id', 1)
+         $city = City::where('state_id', $id_state)
          ->where('description' , $description)
          ->get()
          ->first();
-         return ( $city ) ? $city : false ;
+         return ( $city ) ? true : false ;
     }
 
     public function pushCity( $description , $id_state )
     {
          $city = new City;
-         $city->descriptin = $description;
+         $city->description = $description;
          $city->status = 1;
          $city->state_id = $id_state;
-         return ( $city->save() ) ? $city : false ;
+         return ( $city->save() ) ? true : false ;
     }
 }

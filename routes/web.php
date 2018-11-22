@@ -15,8 +15,9 @@
 Route::view('/bankForm/{id_person?}','banckList');
 Route::get('/getBankList', 'ProccessPayment@getBankList');
 Route::get('/getRoleList', 'RoleController@roleList');
-Route::get('/','ProccessPayment@payerForm')->name('form');
-Route::post('/send-person' , 'PersonController@store');
-Route::post('/send' , 'ProccessPayment@store')->name('payment');
+Route::get('/getDepartaments', 'DepartamentContoller@listDepartaments');
+Route::get('/getCitiesByState/{stae}/', 'CityController@getListCityByState');
+Route::get('/','ProccessPayment@payerForm');
+Route::post('/send-person', 'PersonController@store');
+Route::post('/send', 'ProccessPayment@store')->name('payment');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/getDepartaments' , 'DepartamentController@listDepartaments');

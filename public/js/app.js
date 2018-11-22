@@ -47868,17 +47868,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       departaments: [],
       cities: [],
+      departament: "",
+      city: "",
+      address: "",
       type_document: "",
       documnet: "",
       email: "",
-      nombre: "",
-      apellido: ""
+      firstname: "",
+      lastname: ""
     };
   },
   mounted: function mounted() {
@@ -47901,8 +47911,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     /* Obtener el formulario */
     get_form: function get_form() {
-      return { "email": this.email, "apellido": this.apellido, "nombre": this.nombre, "documnet": this.documnet, "type_document": this.type_document };
+      return { "email": this.email,
+        "apellido": this.apellido,
+        "nombre": this.nombre,
+        "documnet": this.documnet,
+        "type_document": this.type_document,
+        "address": this.address,
+        "city": this.city
+      };
     },
+    /* Lista de departamentos */
     getDepartaments: function getDepartaments() {
       var _this = this;
 
@@ -47911,6 +47929,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           var states = _this.departaments;
           response.data.data.forEach(function (value) {
             states.push(value);
+          });
+        }
+      });
+    },
+    /* Lista de ciudades */
+    getCities: function getCities() {
+      var _this2 = this;
+
+      var state = this.departament;
+      axios.get('/getCitiesByState/' + state + '/').then(function (response) {
+        if (response.data.result == 1) {
+          var city = _this2.cities;
+          response.data.data.forEach(function (value) {
+            city.push(value);
           });
         }
       });
@@ -48033,19 +48065,19 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.nombre,
-                        expression: "nombre"
+                        value: _vm.firstname,
+                        expression: "firstname"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { type: "text", name: "name", required: "true" },
-                    domProps: { value: _vm.nombre },
+                    domProps: { value: _vm.firstname },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.nombre = $event.target.value
+                        _vm.firstname = $event.target.value
                       }
                     }
                   })
@@ -48059,8 +48091,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.apellido,
-                        expression: "apellido"
+                        value: _vm.lastname,
+                        expression: "lastname"
                       }
                     ],
                     staticClass: "form-control",
@@ -48069,13 +48101,13 @@ var render = function() {
                       name: "last_name",
                       required: "true"
                     },
-                    domProps: { value: _vm.apellido },
+                    domProps: { value: _vm.lastname },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.apellido = $event.target.value
+                        _vm.lastname = $event.target.value
                       }
                     }
                   })
@@ -48121,29 +48153,36 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.departaments,
-                          expression: "departaments"
+                          value: _vm.departament,
+                          expression: "departament"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: { name: "departament" },
                       on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.departaments = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.departament = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                          _vm.getCities
+                        ]
                       }
                     },
-                    [_c("option", { attrs: { value: "" } })]
+                    _vm._l(_vm.departaments, function(value) {
+                      return _c("option", { domProps: { value: value.id } }, [
+                        _vm._v(_vm._s(value.description) + " ")
+                      ])
+                    })
                   )
                 ]),
                 _vm._v(" "),
@@ -48179,8 +48218,38 @@ var render = function() {
                         }
                       }
                     },
-                    [_c("option", { attrs: { value: "" } })]
+                    _vm._l(_vm.cities, function(value) {
+                      return _c("option", { domProps: { value: value.id } }, [
+                        _vm._v(_vm._s(value.description) + " ")
+                      ])
+                    })
                   )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Dirección")]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.address,
+                        expression: "address"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { name: "name" },
+                    domProps: { value: _vm.address },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.address = $event.target.value
+                      }
+                    }
+                  })
                 ]),
                 _vm._v(" "),
                 _c(
