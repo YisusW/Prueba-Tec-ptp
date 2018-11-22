@@ -47875,80 +47875,139 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      departaments: [],
-      cities: [],
-      departament: "",
-      city: "",
-      address: "",
-      type_document: "",
-      documnet: "",
-      email: "",
-      firstname: "",
-      lastname: ""
-    };
-  },
-  mounted: function mounted() {
-    this.getDepartaments();
-  },
-
-  methods: {
-    /** Mandar el formulario  */
-    register: function register() {
-
-      var data = this.get_form();
-      axios.post('/send-person', data).then(function (response) {
-        return function () {
-
-          if (response.result == 1) {
-            response.href = "/getList/" + data.id_pagador;
-          }
+    data: function data() {
+        return {
+            departaments: [],
+            cities: [],
+            departament: "",
+            city: "",
+            address: "",
+            type_document: "",
+            documnet: "",
+            email: "",
+            firstname: "",
+            lastname: "",
+            phone: "",
+            mobile: "",
+            message_validate_form: ""
         };
-      });
     },
-    /* Obtener el formulario */
-    get_form: function get_form() {
-      return { "email": this.email,
-        "apellido": this.apellido,
-        "nombre": this.nombre,
-        "documnet": this.documnet,
-        "type_document": this.type_document,
-        "address": this.address,
-        "city": this.city
-      };
+    mounted: function mounted() {
+        this.getDepartaments();
     },
-    /* Lista de departamentos */
-    getDepartaments: function getDepartaments() {
-      var _this = this;
 
-      axios.get('/getDepartaments').then(function (response) {
-        if (response.data.result == 1) {
-          var states = _this.departaments;
-          response.data.data.forEach(function (value) {
-            states.push(value);
-          });
-        }
-      });
-    },
-    /* Lista de ciudades */
-    getCities: function getCities() {
-      var _this2 = this;
+    methods: {
+        /** Validar formulario */
+        validateForm: function validateForm() {
+            var form = this.get_form();
+            if (form.email == "" || form.email == null || empty(form.email)) {
+                this.message_validate_form = "El campo de Correo Electrónico no es válido";
+                return false;
+            } else if (form.apellido == "" || form.apellido == null || empty(form.apellido)) {
+                this.message_validate_form = "El campo apellido no es válido";
+                return false;
+            } else if (form.nombre == "" || form.nombre == null || empty(form.nombre)) {
+                this.message_validate_form = "El campo nómbre no es válido";
+                return false;
+            } else if (form.documnet == "" || form.documnet == null || empty(form.documnet)) {
+                this.message_validate_form = "El campo documento de identidad no es válido";
+                return false;
+            } else if (form.type_document == "" || form.type_document == null || empty(form.type_document)) {
+                this.message_validate_form = "El campo Tipo de documento no es válido";
+                return false;
+            } else if (form.address == "" || form.address == null || empty(form.address)) {
+                this.message_validate_form = "El campo de dirección no es válido";
+                return false;
+            } else if (form.phone == "" || form.phone == null || empty(form.phone)) {
+                this.message_validate_form = "El campo de teléfono no es válido";
+                return false;
+            } else if (form.mobile == "" || form.mobile == null || empty(form.mobile)) {
+                this.message_validate_form = "El campo celular no es válido";
+                return false;
+            } else if (form.departament == "" || form.departament == null || empty(form.departament)) {
+                this.message_validate_form = "El campo departamento no es válido";
+                return false;
+            } else {
+                return true;
+            }
+        },
+        /** Mandar el formulario  */
+        register: function register() {
+            var valid = this.validateForm();
+            if (!valid) {
+                return valid;
+            }
 
-      var state = this.departament;
-      axios.get('/getCitiesByState/' + state + '/').then(function (response) {
-        if (response.data.result == 1) {
-          var city = _this2.cities;
-          response.data.data.forEach(function (value) {
-            city.push(value);
-          });
+            var data = this.get_form();
+            axios.post('/send-person', data).then(function (response) {
+                return function () {
+
+                    if (response.result == 1) {
+                        response.href = "/getList/" + data.id_pagador;
+                    }
+                };
+            });
+        },
+        /* Obtener el formulario */
+        get_form: function get_form() {
+            return { "email": this.email,
+                "apellido": this.apellido,
+                "nombre": this.nombre,
+                "documnet": this.documnet,
+                "type_document": this.type_document,
+                "address": this.address,
+                "city": this.city,
+                "phone": this.phone,
+                "mobile": this.mobile
+            };
+        },
+        /* Lista de departamentos */
+        getDepartaments: function getDepartaments() {
+            var _this = this;
+
+            axios.get('/getDepartaments').then(function (response) {
+                if (response.data.result == 1) {
+                    var states = _this.departaments;
+                    response.data.data.forEach(function (value) {
+                        states.push(value);
+                    });
+                }
+            });
+        },
+        /* Lista de ciudades */
+        getCities: function getCities() {
+            var _this2 = this;
+
+            var state = this.departament;
+            axios.get('/getCitiesByState/' + state + '/').then(function (response) {
+                if (response.data.result == 1) {
+                    var city = _this2.cities;
+                    response.data.data.forEach(function (value) {
+                        city.push(value);
+                    });
+                }
+            });
         }
-      });
+
     }
-
-  }
 });
 
 /***/ }),
@@ -47968,6 +48027,17 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
+            _vm.message_validate_form != null
+              ? _c("div", { staticClass: "alert alert-warning" }, [
+                  _c("strong", [_vm._v("Error en formulario !")]),
+                  _vm._v(
+                    " " +
+                      _vm._s(_vm.message_validate_form) +
+                      "\n                  "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _c(
               "form",
               {
@@ -48010,20 +48080,28 @@ var render = function() {
                       }
                     },
                     [
-                      _c("option", { attrs: { value: "ce" } }, [
-                        _vm._v("Cédula")
+                      _c("option", { attrs: { value: "CC" } }, [
+                        _vm._v("Cédula de ciudanía colombiana")
                       ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "cf" } }, [
-                        _vm._v("Céduala de extranjería")
+                      _c("option", { attrs: { value: "CE" } }, [
+                        _vm._v("Cédula de extranjería")
                       ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "pa" } }, [
+                      _c("option", { attrs: { value: "TI" } }, [
+                        _vm._v("Tarjeta de identidad")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "PPN" } }, [
                         _vm._v("Pasaporte")
                       ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "pe" } }, [
-                        _vm._v("Permiso Especial de Permanencia")
+                      _c("option", { attrs: { value: "NIT" } }, [
+                        _vm._v("Número de identificación tributaria")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "SSN" } }, [
+                        _vm._v("Social Security Number")
                       ])
                     ]
                   )
@@ -48247,6 +48325,58 @@ var render = function() {
                           return
                         }
                         _vm.address = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Teéfono")]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.phone,
+                        expression: "phone"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { name: "name" },
+                    domProps: { value: _vm.phone },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.phone = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Celular")]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.mobile,
+                        expression: "mobile"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { name: "name" },
+                    domProps: { value: _vm.mobile },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.mobile = $event.target.value
                       }
                     }
                   })

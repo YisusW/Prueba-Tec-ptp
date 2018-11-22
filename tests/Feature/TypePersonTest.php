@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class RoleTest extends TestCase
+class TypePersonTest extends TestCase
 {
     protected $controller ;
     /**
@@ -14,30 +14,30 @@ class RoleTest extends TestCase
      * @return void
      */
     private function setController(){
-        $this->controller = new \PlaceToPay\Http\Controllers\RoleController;
+        $this->controller = new \PlaceToPay\Http\Controllers\TypePersonController;
     }
     /**
      * A basic getroles function.
      *
      * @return void
      */
-    public function testGetroles()
+    public function testGetTypePerson()
     {   $this->setController();
-        $this->assertTrue(is_object($this->controller->getRoleActive()));
+        $this->assertTrue(is_object($this->controller->getTypePersonActive()));
     }
     /**
      * A basic getroles function.
      *
      * @return void
      */
-    public function testPushrole()
+    public function testPushTypePerson()
     {
         $this->setController();
 
-        $result = $this->controller->checkRole('Otros');
+        $result = $this->controller->checkTypePerson('Otros');
 
         if ( $result == true ) {
-            $this->assertTrue($this->controller->storeRole(null, 'Otros') == true);
+            $this->assertTrue($this->controller->storeTypePerson('Otros') == true);
         } else {
             $this->assertFalse($result);
         }
@@ -48,9 +48,9 @@ class RoleTest extends TestCase
      *
      * @return void
      */
-    public function testCheckrole()
+    public function testCheckTypePerson()
     {
         $this->setController();
-        $this->assertFalse($this->controller->checkRole('Otros') == true);
+        $this->assertFalse($this->controller->checkTypePerson('Otros') == true);
     }
 }

@@ -20,55 +20,58 @@ class DatabaseDesarrollo extends Migration
             $table->boolean('status');
             $table->timestamps();
         });
+
         // tabla state
         Schema::create('state', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
             $table->unsignedInteger('country_id');
-            $table->foreign('country_id')->references('id')->on('country');
             $table->boolean('status');
             $table->timestamps();
+            $table->foreign('country_id')->references('id')->on('country');
         });
+
         // tabla state
         Schema::create('city', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
             $table->unsignedInteger('state_id');
-            $table->foreign('state_id')->references('id')->on('state');
             $table->boolean('status');
             $table->timestamps();
+            $table->foreign('state_id')->references('id')->on('state');
         });
-        // tabla persona
-        Schema::create('person', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('document');
-            $table->string('documentType');
-            $table->string('firstName');
-            $table->string('lastName');
-            $table->string('address');
-            $table->string('emailAddress');
-            $table->unsignedInteger('city_id');
-            $table->foreign('city_id')->references('id')->on('city');
-            $table->string('phone');
-            $table->string('cell_phone');
-            $table->boolean('is_payer');
-            $table->timestamps();
-        });
+
         // tabla type_roll
-        Schema::create('role', function (Blueprint $table) {
+        Schema::create('type_person', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
             $table->boolean('status');
             $table->timestamps();
         });
 
-        // tabla person_type_roll
-        Schema::create('person_role', function (Blueprint $table) {
+        // tabla persona
+        Schema::create('person', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('person_id');
-            $table->foreign('person_id')->references('id')->on('person');
-            $table->unsignedInteger('role_id');
-            $table->foreign('role_id')->references('id')->on('role');
+            $table->unsignedInteger('city_id');
+            $table->unsignedInteger('type_person');
+            $table->string('document');
+            $table->string('documentType');
+            $table->string('firstName');
+            $table->string('lastName');
+            $table->string('address');
+            $table->string('emailAddress');
+            $table->string('phone');
+            $table->string('cell_phone');
+            $table->string('company');
+            $table->timestamps();
+            $table->foreign('city_id')->references('id')->on('city');
+            $table->foreign('type_person')->references('id')->on('type_person');
+        });
+
+        // tabla bank
+        Schema::create('type_client', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('description');
             $table->boolean('status');
             $table->timestamps();
         });
@@ -78,21 +81,63 @@ class DatabaseDesarrollo extends Migration
             $table->increments('id');
             $table->string('method_pay');
             $table->string('code_bank');
+            $table->unsignedInteger('type_client_id');
             $table->boolean('status');
             $table->timestamps();
+            $table->foreign('type_client_id')->references('id')->on('type_client');
         });
-
-        // tabla bank_person
-        Schema::create('bank_person', function (Blueprint $table) {
+        /* table transaction or data response of soap Place to pay */
+        Schema::create('transaction', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('payer_id');
+            $table->unsignedInteger('bayer_id');
             $table->unsignedInteger('bank_id');
-            $table->foreign('bank_id')->references('id')->on('bank');
-            $table->unsignedInteger('person_role_id');
-            $table->foreign('person_role_id')->references('id')->on('person_role');
-            $table->boolean('status');
+            $table->string('status');
             $table->timestamps();
+            $table->foreign('payer_id')->references('id')->on('person');
+            $table->foreign('bayer_id')->references('id')->on('person');
+            $table->foreign('bank_id')->references('id')->on('bank');
         });
+        $this->register();
+    }
 
+    private function register()
+    {
+        \DB::table('country')->insert(array(
+               'description'  => 'Colombia',
+               'status' => 1
+        ));
+        \DB::table('state')->insert(array(
+               'description'  => 'Antioquia',
+               'country_id' => 1,
+               'status' => 1
+        ));
+        \DB::table('city')->insert(array(
+               'description'  => 'Medellin',
+               'state_id' => 1,
+               'status' => 1
+        ));
+        $one = array(
+                'description'  => 'Natural',
+                'status' => 1
+              );
+        $two = array(
+                      'description'  => 'Juridica',
+                      'status' => 1
+              );
+        \DB::table('type_person')->insert($one);
+        \DB::table('type_person')->insert($two);
+        /* save the first type_client */
+        $one = array(
+                  'description'  => 'Persona',
+                  'status' => 1
+              );
+        $tow = array(
+                  'description'  => 'Empresa',
+                  'status' => 1
+              );
+        \DB::table('type_client')->insert($one);
+        \DB::table('type_client')->insert($tow);
     }
 
     /**
@@ -102,11 +147,11 @@ class DatabaseDesarrollo extends Migration
      */
     public function down()
     {
-        Schema::drop('bank_person');
-        Schema::drop('person_role');
-        Schema::drop('role');
+        Schema::drop('transaction');
         Schema::drop('bank');
+        Schema::drop('type_client');
         Schema::drop('person');
+        Schema::drop('type_person');
         Schema::drop('city');
         Schema::drop('state');
         schema::drop('country');
