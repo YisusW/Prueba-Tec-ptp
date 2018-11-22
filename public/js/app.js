@@ -47872,6 +47872,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      departaments: [],
+      cities: [],
       type_document: "",
       documnet: "",
       email: "",
@@ -47906,9 +47908,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       axios.get('/getDepartaments').then(function (response) {
         if (response.data.result == 1) {
-          var bank = _this.banks;
+          var states = _this.departaments;
           response.data.data.forEach(function (value) {
-            bank.push(value);
+            states.push(value);
           });
         }
       });
@@ -48119,8 +48121,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.departament,
-                          expression: "departament"
+                          value: _vm.departaments,
+                          expression: "departaments"
                         }
                       ],
                       staticClass: "form-control",
@@ -48135,7 +48137,7 @@ var render = function() {
                               var val = "_value" in o ? o._value : o.value
                               return val
                             })
-                          _vm.departament = $event.target.multiple
+                          _vm.departaments = $event.target.multiple
                             ? $$selectedVal
                             : $$selectedVal[0]
                         }

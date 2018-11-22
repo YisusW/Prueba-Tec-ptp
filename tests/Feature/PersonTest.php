@@ -9,12 +9,34 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class PersonTest extends TestCase
 {
     /**
-     * A basic test example.
+     * A function to list every person on database.
      *
      * @return void
      */
-    public function testExample()
+    public function testGetPeople()
     {
         $this->assertTrue(true);
     }
+
+
+    /**
+     * A get just one person.
+     *
+     * @return void
+     */
+    public function testGetOnePerson()
+    {
+        $this->assertTrue(true);
+    }
+    /**
+     * A test to Create Person.
+     *
+     * @return void
+     */
+    public function testPushPerson()
+    {
+        $this->assertTrue(true);
+    }
+
+
 }
