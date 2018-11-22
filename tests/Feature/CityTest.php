@@ -52,7 +52,7 @@ class CityTest extends TestCase
     public function testPushCity()
     {
         $this->setController();
-        $id_state = 10;
+        $id_state = ( count((array) $this->getLastIdState()) == 1 ) ? $this->getLastIdState()->id : 1 ;
         $city =  "Bello";
         if ($this->controller->checkCity($city, $id_state) == false) {
             $this->assertTrue($this->controller->pushCity($city, $id_state));
@@ -60,6 +60,12 @@ class CityTest extends TestCase
             $this->assertTrue($this->controller->checkCity($city, $id_state));
         }
 
+    }
+
+    private function getLastIdState()
+    {
+         $controller = new \PlaceToPay\Http\Controllers\DepartamentController;
+         return $controller->getLastId();
     }
 
 }

@@ -50,7 +50,8 @@ class DatabaseDesarrollo extends Migration
             $table->unsignedInteger('city_id');
             $table->foreign('city_id')->references('id')->on('city');
             $table->string('phone');
-            $table->string('mobile');
+            $table->string('cell_phone');
+            $table->boolean('is_payer');
             $table->timestamps();
         });
         // tabla type_roll

@@ -5,7 +5,7 @@ namespace PlaceToPay\Http\Controllers;
 use Illuminate\Http\Request;
 use PlaceToPay\Departament;
 
-class DepartamentContoller extends Controller
+class DepartamentController extends Controller
 {
     //
 
@@ -38,6 +38,11 @@ class DepartamentContoller extends Controller
           $departament->country_id = $id_country;
           $departament->description = $description;
           $departament->status = 1;
-          return ( $departament->save() ) ? $departament : false;
+          return ( $departament->save() ) ? true : false;
+    }
+
+
+    public function getLastId(){
+          return Departament::get()->last();
     }
 }

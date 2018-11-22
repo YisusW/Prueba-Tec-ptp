@@ -13,7 +13,7 @@ class DepartamentTest extends TestCase
 
 	public function setController()
 	{
-		  $this->controller = new \PlaceToPay\Http\Controllers\DepartamentContoller;
+		  $this->controller = new \PlaceToPay\Http\Controllers\DepartamentController;
 	}
 
   /**
