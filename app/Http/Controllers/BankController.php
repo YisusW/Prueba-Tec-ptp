@@ -83,7 +83,9 @@ class BankController extends Controller
 
                   $response = array('result' => 1 ,
                   'url' => $respuesta->createTransactionResult->bankURL,
-                  'message' => $respuesta->createTransactionResult->responseReasonText);
+                  'message' => $respuesta->createTransactionResult->responseReasonText,
+                  'transactionId' => $respuesta->createTransactionResult->transactionID
+                   );
 
                   return response()->json($response);
 
@@ -118,5 +120,37 @@ class BankController extends Controller
       private function getPerson( $id_persona )
       {
           return $this->getClassPersonController()->getPersonById($id_persona);
+      }
+
+      /**
+       *
+       *
+       */
+      public function statusTransaction(Request $request, Soap $place_t_pay)
+      {
+           $result = $place_t_pay->getTransactionInformation($request->transaction_id);
+
+           if( $result->getTransactionInformationResult ){
+          /*
+
+          +"transactionID": 1464575807
+          +"sessionID": "e054d927fe3e393d5a65a29685eb887b"
+          +"reference": "Referencia única de pago"
+          +"requestDate": "2018-11-23T06:22:39-05:00"
+          +"bankProcessDate": "2018-11-23T06:24:45-05:00"
+          +"onTest": true
+          +"returnCode": "SUCCESS"
+          +"trazabilityCode": "1497088"
+          +"transactionCycle": 1
+          +"transactionState": "OK"
+          +"responseCode": 1
+          +"responseReasonCode": "00"
+          +"responseReasonText": "Aprobada"
+          */
+
+              return response()->json(array('result' => 1, 'data' => $result->getTransactionInformationResult ));
+           } else {
+              return response()->json(array('result' => 0, 'message' => 'ocurrio un error en el servidor ' ));
+           }
       }
 }

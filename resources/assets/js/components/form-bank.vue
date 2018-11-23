@@ -7,6 +7,11 @@
 
                     <div class="card-body">
 
+
+                    <div v-if="message_saved!=null" class="alert alert-warning">
+                        <strong>Información de la transacción</strong>  {{message_saved}}
+                    </div>
+
                       <form class="form" action="index.html" method="post">
                         <div class="form-group">
                             <label for="method">Medio de pago</label>
@@ -35,7 +40,13 @@
                             <input type="numeric" class="form-control" value="" v-model="mount">
                           </div>
 
-                          <button v-on:click="register"  type="button" name="button" class="btn btn-success btn-block" >Enviar</button>
+                          <button v-show="url_pse==null" v-on:click="register"  type="button" name="button" class="btn btn-success btn-block" >Enviar</button>
+
+                          <a v-show="url_pse!=null && url_pse!=1" v-bind:href="url_pse" v-on:click="showButtonStatus" role="button" class="btn btn-info btn-block text-white" target="_blank">
+                              Pagar en PSE
+                          </a>
+
+                          <button v-show="id_transaction != null && url_pse == 1" type="button" name="button" class="btn btn-info btn-block text-white" v-on:click="buscarTransaction" >Verificar estado</button>
                       </form>
 
                     </div>
@@ -55,7 +66,10 @@
             method_pay    : "",
             type_client   : "",
             banks_selected: "",
-            mount : ""
+            mount         : "",
+            url_pse       : null,
+            message_saved : null,
+            id_transaction : null
           }
         },
         mounted() {
@@ -63,15 +77,21 @@
             this.getTypeClientList()
         },
         methods :{
-
+          showButtonStatus : function (){
+              this.url_pse = 1
+          },
           /** Mandar el formulario  */
           register : function(){
 
              let data = this.get_form();
-             axios.post('/initTransaction' ,  data ).then( response => function(){
+             axios.post('/initTransaction' ,  data ).then( (response) =>{
 
-               if ( response.result == 1 ) {
-
+               if ( response.data.result == 1 ) {
+                   this.url_pse = response.data.url
+                   this.message_saved = response.data.message
+                   this.id_transaction = response.data.transactionId
+               } else {
+                   this.message_saved = response.data.message
                }
 
              });
@@ -113,6 +133,21 @@
               }
 
             })
+          },
+          /** buscar informacion de la transactino */
+          buscarTransaction : function (){
+            let data = { transaction_id : this.id_transaction }
+            axios.post('/getTransactionstatus' , data  ).then((response) => {
+              if (response.data.result == 1) {
+
+                  this.message_saved = response.data.message
+              } else {
+
+                  this.message_saved = response.data.message
+              }
+
+            })
+
           }
         }
     }

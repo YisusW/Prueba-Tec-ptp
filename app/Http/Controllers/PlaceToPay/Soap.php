@@ -50,13 +50,23 @@ class Soap
     }
     /**
      *    Crear La transaction
-     *    @ retorna
+     *    @return object
      **/
     public function createTransaction ( $transaction )
     {
           $client = $this->init();
           $trans_auth = array('auth' => $this->getAuth(), 'transaction'=>$transaction);
           return $client->createTransaction($trans_auth);
+    }
+    /**
+     *    get status of transaction
+     *    @return object_colection
+     **/
+    public function getTransactionInformation ( $transaction_id )
+    {
+          $client = $this->init();
+          $trans_auth = array('auth' => $this->getAuth(), 'transactionID' => $transaction_id);
+          return $client->getTransactionInformation($trans_auth);
     }
 
 }

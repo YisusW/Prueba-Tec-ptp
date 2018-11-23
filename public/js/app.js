@@ -47516,6 +47516,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["personas"],
@@ -47526,7 +47537,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       method_pay: "",
       type_client: "",
       banks_selected: "",
-      mount: ""
+      mount: "",
+      url_pse: null,
+      message_saved: null,
+      id_transaction: null
     };
   },
   mounted: function mounted() {
@@ -47535,16 +47549,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
-
+    showButtonStatus: function showButtonStatus() {
+      this.url_pse = 1;
+    },
     /** Mandar el formulario  */
     register: function register() {
+      var _this = this;
 
       var data = this.get_form();
       axios.post('/initTransaction', data).then(function (response) {
-        return function () {
 
-          if (response.result == 1) {}
-        };
+        if (response.data.result == 1) {
+          _this.url_pse = response.data.url;
+          _this.message_saved = response.data.message;
+          _this.id_transaction = response.data.transactionId;
+        } else {
+          _this.message_saved = response.data.message;
+        }
       });
     },
     /** Obtener el formulario */
@@ -47560,11 +47581,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     /** getBankList */
     getBankList: function getBankList() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('/getBankList').then(function (response) {
         if (response.data.result == 1) {
-          var bank = _this.banks;
+          var bank = _this2.banks;
           response.data.data.forEach(function (value) {
             bank.push(value);
           });
@@ -47573,14 +47594,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     /** getBankList */
     getTypeClientList: function getTypeClientList() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/getTypeClientList').then(function (response) {
         if (response.data.result == 1) {
-          var role = _this2.type_person;
+          var role = _this3.type_person;
           response.data.data.forEach(function (value) {
             role.push(value);
           });
+        }
+      });
+    },
+    /** buscar informacion de la transactino */
+    buscarTransaction: function buscarTransaction() {
+      var _this4 = this;
+
+      var data = { transaction_id: this.id_transaction };
+      axios.post('/getTransactionstatus', data).then(function (response) {
+        if (response.data.result == 1) {
+
+          _this4.message_saved = response.data.message;
+        } else {
+
+          _this4.message_saved = response.data.message;
         }
       });
     }
@@ -47604,6 +47640,15 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
+            _vm.message_saved != null
+              ? _c("div", { staticClass: "alert alert-warning" }, [
+                  _c("strong", [_vm._v("Información de la transacción")]),
+                  _vm._v(
+                    "  " + _vm._s(_vm.message_saved) + "\n                "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _c(
               "form",
               {
@@ -47772,11 +47817,63 @@ var render = function() {
                 _c(
                   "button",
                   {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.url_pse == null,
+                        expression: "url_pse==null"
+                      }
+                    ],
                     staticClass: "btn btn-success btn-block",
                     attrs: { type: "button", name: "button" },
                     on: { click: _vm.register }
                   },
                   [_vm._v("Enviar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.url_pse != null && _vm.url_pse != 1,
+                        expression: "url_pse!=null && url_pse!=1"
+                      }
+                    ],
+                    staticClass: "btn btn-info btn-block text-white",
+                    attrs: {
+                      href: _vm.url_pse,
+                      role: "button",
+                      target: "_blank"
+                    },
+                    on: { click: _vm.showButtonStatus }
+                  },
+                  [
+                    _vm._v(
+                      "\n                          Pagar en PSE\n                      "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.id_transaction != null && _vm.url_pse == 1,
+                        expression: "id_transaction != null && url_pse == 1"
+                      }
+                    ],
+                    staticClass: "btn btn-info btn-block text-white",
+                    attrs: { type: "button", name: "button" },
+                    on: { click: _vm.buscarTransaction }
+                  },
+                  [_vm._v("Verificar estado")]
                 )
               ]
             )

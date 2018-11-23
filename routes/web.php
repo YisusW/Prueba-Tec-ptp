@@ -24,3 +24,5 @@ Route::post('/bayer', 'PersonController@store');
 Route::post('/payer', 'PersonController@store');
 Route::post('/initTransaction', 'BankController@store');
 Route::get('/getTypeClientList', 'TypeClientController@listTypeListActive');
+
+Route::post('/getTransactionstatus', 'BankController@statusTransaction');
