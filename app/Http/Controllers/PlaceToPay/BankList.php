@@ -2,34 +2,42 @@
 
 namespace PlaceToPay\Http\Controllers\PlaceToPay;
 
-use Illuminate\Http\Request;
-use PlaceToPay\Http\Controllers\Controller;
-use Soap;
+use PlaceToPay\Http\Controllers\PlaceToPay\Soap;
 use \Cache;
 
-class BankList extends Controller
+class BankList
 {
-    //
-    public function listBank()
+
+    protected $services ;
+
+    public function __construct()
     {
-        $this->checkListServicesCache();
+        $this->services = new Soap();
     }
+
+
     /**
      *
      *    Verificar si la lista de los bacos estan en cache o no, para consumir el servicio
      *
      */
-    public function checkListServicesCache(Soap $service)
+    public function listBank()
     {
-          $result = $this->verificar_service('bankDay');
+          $result = $this->checkListOnCache('bankDay');
 
           if ($result == false) {
-              $result = $services->getBankList();
+              $result = $this->services->getBankList();
               if ($result == false) {
                   return array('result' => false, 'message' => 'Los datos no se encontraro' );
               } else {
+
+                  $this->setCacheBankList($result);
+
                   return array('result' => true , 'data' => $result);
               }
+          } else {
+
+            return array('result' => true , 'data' => $result);
           }
 
     }
@@ -39,9 +47,24 @@ class BankList extends Controller
      *  Verificar cache key (BankList)
      *
      */
-    public function verificar_service( $key )
+    public function checkListOnCache( $key )
     {
-        return (Cache::has($key)) ;
+         return (Cache::has($key)) ;
     }
+
+    /**
+     *
+     *  poner en cache la lista de  bancos
+     *
+     */
+
+    private function setCacheBankList ($Bank)
+    {
+        $minutos = 1440;
+
+   		  $Bank = Cache::remember( 'bankDay', $minutos, function () use ($Bank) {
+   	    	return $Bank;
+        });
+     }
 
 }

@@ -54,7 +54,7 @@
         },
         mounted() {
             this.getBankList()
-            this.getRoleList()
+            this.getTypePersonList()
         },
         methods :{
           /** Mandar el formulario  */
@@ -88,9 +88,9 @@
             })
           },
           /** getBankList */
-          getRoleList: function (){
+          getTypePersonList: function (){
 
-            axios.get('/getRoleList').then((response) => {
+            axios.get('/getTypePersonList').then((response) => {
               if (response.data.result == 1) {
                   let role = this.type_person
                   response.data.data.forEach(function( value ){

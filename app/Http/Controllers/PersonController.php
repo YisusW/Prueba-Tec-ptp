@@ -12,9 +12,9 @@ class PersonController extends Controller
      * Cuando se registra un comprador se el envia una url a el fron para cuando se hace click se muestra otro formulario
      * @return view
      */
-    public function formPayer(Request $request)
+    public function formPayer(Request $request, $id_comprador)
     {
-          return view('payer');
+          return view('payer')->with('id_comprador',$id_comprador);
     }
 
     /**

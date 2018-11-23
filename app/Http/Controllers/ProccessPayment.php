@@ -6,12 +6,7 @@ use Illuminate\Http\Request;
 
 class ProccessPayment extends Controller
 {
-    public function getBankList()
-    {
-        $soap = new PlaceToPay\Soap();
-        $list_banks = $soap->getBankList();
-        return response()->json( array('result'=> 1, 'data'=> $list_banks  ) );
-    }
+
     //
     public function store( Request $request )
     {
