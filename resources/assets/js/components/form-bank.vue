@@ -7,8 +7,14 @@
 
                     <div class="card-body">
 
+                    
 
-                    <div v-if="message_saved!=null" class="alert alert-warning">
+                    <div v-if="transaction!=null" class="alert alert-info">
+                        <strong>Información de la transacción</strong> Estatus : {{transaction}}
+                        <br>
+                        Fecha de actualización : {{fecha_status}}
+                    </div>
+                    <div v-else-if="message_saved!=null" class="alert alert-warning">
                         <strong>Información de la transacción</strong>  {{message_saved}}
                     </div>
 
@@ -69,7 +75,9 @@
             mount         : "",
             url_pse       : null,
             message_saved : null,
-            id_transaction : null
+            id_transaction : null,
+            transaction : null,
+            fecha_status: "",
           }
         },
         mounted() {
@@ -140,7 +148,10 @@
             axios.post('/getTransactionstatus' , data  ).then((response) => {
               if (response.data.result == 1) {
 
-                  this.message_saved = response.data.message
+                  this.message_saved = "transaction"
+                  this.transaction = response.data.data.responseReasonText
+                  console.log(response.data.data.responseReasonText)
+                  this.fecha_status =  response.data.data.requestDate
               } else {
 
                   this.message_saved = response.data.message
