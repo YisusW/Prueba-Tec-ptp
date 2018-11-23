@@ -25,8 +25,8 @@ class ProccessPayment extends Controller
         }
     }
     //
-    public function payerForm(Request $request)
+    public function bayerForm(Request $request)
     {
-        return view('payer');
+        return view('bayer');
     }
 }

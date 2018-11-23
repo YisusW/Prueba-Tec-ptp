@@ -19,7 +19,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 
 Vue.component('form-bank', require('./components/form-bank.vue'));
 
-Vue.component('form-person', require('./components/form-person.vue'));
+Vue.component('form-bayer', require('./components/form-bayer.vue'));
+
+Vue.component('form-payer', require('./components/form-payer.vue'));
 
 const app = new Vue({
     el: '#app'

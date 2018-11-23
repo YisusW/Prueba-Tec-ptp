@@ -14,10 +14,12 @@
 
 Route::view('/bankForm/{id_person?}','banckList');
 Route::get('/getBankList', 'ProccessPayment@getBankList');
-Route::get('/getRoleList', 'RoleController@roleList');
-Route::get('/getDepartaments', 'DepartamentContoller@listDepartaments');
+Route::get('/getTypePersonList', 'TypePersonController@getTypePersonList');
+Route::get('/getDepartaments', 'DepartamentController@listDepartaments');
 Route::get('/getCitiesByState/{stae}/', 'CityController@getListCityByState');
-Route::get('/','ProccessPayment@payerForm');
-Route::post('/send-person', 'PersonController@store');
+Route::get('/','ProccessPayment@bayerForm')->name('bayer');
+Route::get('/payerForm/{bayer_id?}','PersonController@formPayer');
+Route::post('/bayer', 'PersonController@store');
+Route::post('/payer', 'PersonController@store');
 Route::post('/send', 'ProccessPayment@store')->name('payment');
 Route::get('/home', 'HomeController@index')->name('home');

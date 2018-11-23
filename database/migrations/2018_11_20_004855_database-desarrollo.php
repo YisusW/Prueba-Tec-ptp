@@ -53,19 +53,19 @@ class DatabaseDesarrollo extends Migration
         Schema::create('person', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('city_id');
-            $table->unsignedInteger('type_person');
+            $table->unsignedInteger('type_person_id');
             $table->string('document');
-            $table->string('documentType');
-            $table->string('firstName');
-            $table->string('lastName');
+            $table->string('document_type');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('address');
-            $table->string('emailAddress');
+            $table->string('email');
             $table->string('phone');
             $table->string('cell_phone');
             $table->string('company');
             $table->timestamps();
             $table->foreign('city_id')->references('id')->on('city');
-            $table->foreign('type_person')->references('id')->on('type_person');
+            $table->foreign('type_person_id')->references('id')->on('type_person');
         });
 
         // tabla bank
