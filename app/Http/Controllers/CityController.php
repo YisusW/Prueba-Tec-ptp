@@ -11,12 +11,12 @@ class CityController extends Controller
 
     public function listCitiesActive( )
     {
-         return City::where('status',1)->get(["id","description"]);
+          return City::where('status',1)->get(["id","description"]);
     }
 
     public function getCitiesByState( $state_id )
     {
-         return City::where('status',1)->where('state_id' , $state_id)->get(["id","description"]);
+          return City::where('status',1)->where('state_id' , $state_id)->get(["id","description"]);
     }
     /**
      *
@@ -30,12 +30,15 @@ class CityController extends Controller
          } else {
              return $this->getCitiesByState($id_state);
          }
-
     }
-
+    /**
+     *
+     *
+     *
+     */
     public function getCityById( $id )
     {
-          $city = City::where('id' , $id)->get(["id" ,"description"])->first();
+          $city = City::where('id' , $id)->get(["id" ,"description", "state_id"])->first();
           return ( $city ) ? $city : false ;
     }
 

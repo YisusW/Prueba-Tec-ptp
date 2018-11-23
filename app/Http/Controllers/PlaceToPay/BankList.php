@@ -15,7 +15,6 @@ class BankList
         $this->services = new Soap();
     }
 
-
     /**
      *
      *    Verificar si la lista de los bacos estan en cache o no, para consumir el servicio
@@ -35,7 +34,9 @@ class BankList
 
                   return array('result' => true , 'data' => $result);
               }
-          } else {
+          } elseif ($result == true) {
+
+            $result = $this->getListCache('bankDay');
 
             return array('result' => true , 'data' => $result);
           }
@@ -66,5 +67,16 @@ class BankList
    	    	return $Bank;
         });
      }
+     /**
+      *
+      *  una vez verificada la data, se obtiene la lista seteada con anterioridad
+      *
+      */
+     public function getListCache ( $key ){
+
+     	    return   (Cache::get($key)) ;
+     }
+
+
 
 }

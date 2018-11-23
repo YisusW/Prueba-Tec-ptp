@@ -41,8 +41,17 @@ class DepartamentController extends Controller
           return ( $departament->save() ) ? true : false;
     }
 
-
     public function getLastId(){
           return Departament::get()->last();
+    }
+
+    /**
+    * obtener el nombre del departamento
+    * @return string
+    **/
+
+    public static function getDepartament($Id)
+    {
+         return Departament::where("id" ,$Id)->get(["description"])->first()->description;
     }
 }

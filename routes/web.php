@@ -22,5 +22,5 @@ Route::get('/payerForm/{bayer_id?}','PersonController@formPayer');
 Route::get('/bankForm/{id_comprador?}/{id_pagador?}','BankController@index');
 Route::post('/bayer', 'PersonController@store');
 Route::post('/payer', 'PersonController@store');
-Route::post('/send', 'ProccessPayment@store')->name('payment');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/initTransaction', 'BankController@store');
+Route::get('/getTypeClientList', 'TypeClientController@listTypeListActive');

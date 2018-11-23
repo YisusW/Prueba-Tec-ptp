@@ -17,8 +17,8 @@
                         </div>
 
                           <div class="form-group">
-                              <label for="">Tipo de persona</label>
-                              <select class="form-control" name="bankInterface" required="true" v-model="role_selected" >
+                              <label for="">Tipo de cliente</label>
+                              <select class="form-control" name="bankInterface" required="true" v-model="type_client" >
                                 <option v-for="value in type_person"
                                         :value="value.id">{{ value.description }} </option>
                               </select>
@@ -43,25 +43,27 @@
 
 <script>
     export default {
+      props : ["personas"],
         data :function (){
           return {
-            banks       : [],
-            type_person : [],
-            method_pay  : "",
-            role_selected: "",
+            banks         : [],
+            type_person   : [],
+            method_pay    : "",
+            type_client   : "",
             banks_selected: ""
           }
         },
         mounted() {
             this.getBankList()
-            this.getTypePersonList()
+            this.getTypeClientList()
         },
         methods :{
+
           /** Mandar el formulario  */
           register : function(){
 
              let data = this.get_form();
-             axios.post('/send' ,  data ).then( response => function(){
+             axios.post('/initTransaction' ,  data ).then( response => function(){
 
                if ( response.result == 1 ) {
 
@@ -72,7 +74,13 @@
           },
           /** Obtener el formulario */
           get_form : function (){
-              return { "tipo_persona" : this.role_selected, "bank" : this.banks_selected, "method_pay":this.method_pay };
+              return {
+                "tipo_cliente" : this.type_client,
+                "bank_code"    : this.banks_selected,
+                "method_pay"   : this.method_pay,
+                "comprador"    : this.personas.comprador,
+                "pagador"      : this.personas.pagador
+               };
           },
           /** getBankList */
           getBankList: function (){
@@ -88,9 +96,9 @@
             })
           },
           /** getBankList */
-          getTypePersonList: function (){
+          getTypeClientList: function (){
 
-            axios.get('/getTypePersonList').then((response) => {
+            axios.get('/getTypeClientList').then((response) => {
               if (response.data.result == 1) {
                   let role = this.type_person
                   response.data.data.forEach(function( value ){

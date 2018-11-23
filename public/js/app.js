@@ -47514,26 +47514,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["personas"],
   data: function data() {
     return {
       banks: [],
       type_person: [],
       method_pay: "",
-      role_selected: "",
+      type_client: "",
       banks_selected: ""
     };
   },
   mounted: function mounted() {
     this.getBankList();
-    this.getTypePersonList();
+    this.getTypeClientList();
   },
 
   methods: {
+
     /** Mandar el formulario  */
     register: function register() {
 
       var data = this.get_form();
-      axios.post('/send', data).then(function (response) {
+      axios.post('/initTransaction', data).then(function (response) {
         return function () {
 
           if (response.result == 1) {}
@@ -47542,7 +47544,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     /** Obtener el formulario */
     get_form: function get_form() {
-      return { "tipo_persona": this.role_selected, "bank": this.banks_selected, "method_pay": this.method_pay };
+      return {
+        "tipo_cliente": this.type_client,
+        "bank_code": this.banks_selected,
+        "method_pay": this.method_pay,
+        "comprador": this.personas.comprador,
+        "pagador": this.personas.pagador
+      };
     },
     /** getBankList */
     getBankList: function getBankList() {
@@ -47558,10 +47566,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     /** getBankList */
-    getTypePersonList: function getTypePersonList() {
+    getTypeClientList: function getTypeClientList() {
       var _this2 = this;
 
-      axios.get('/getTypePersonList').then(function (response) {
+      axios.get('/getTypeClientList').then(function (response) {
         if (response.data.result == 1) {
           var role = _this2.type_person;
           response.data.data.forEach(function (value) {
@@ -47645,7 +47653,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "" } }, [
-                    _vm._v("Tipo de persona")
+                    _vm._v("Tipo de cliente")
                   ]),
                   _vm._v(" "),
                   _c(
@@ -47655,8 +47663,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.role_selected,
-                          expression: "role_selected"
+                          value: _vm.type_client,
+                          expression: "type_client"
                         }
                       ],
                       staticClass: "form-control",
@@ -47671,7 +47679,7 @@ var render = function() {
                               var val = "_value" in o ? o._value : o.value
                               return val
                             })
-                          _vm.role_selected = $event.target.multiple
+                          _vm.type_client = $event.target.multiple
                             ? $$selectedVal
                             : $$selectedVal[0]
                         }

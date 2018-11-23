@@ -9,26 +9,47 @@ class Transaction extends Controller
     //
 
 
-      public function createTransaction( Request $request ){
-
-
-        $tras = array('bankCode' => $request->bankCode,
-        'bankInterface'  => $request->bankInterface ,
+      public function createTransaction( $buyer, $payer, $bank  )
+      {
+         return array('bankCode' => $bank->bankCode,
+        'bankInterface'  => $bank->bankInterface ,
         'returnURL'      => 'https://registro.pse.com.co/PSEUserRegister/' ,
         'reference'      => 'Referencia única de pago',
         'description'    => 'pruebas desde yisus-dev',
         'language'       => 'es',
         'currency'       => 'COP',
-        'totalAmount'    => (float)1000.0,
-        'taxAmount'      => (float)500.0,
-        'devolutionBase' => (float)250.0,
-        'tipAmount'      => (float)250.0,
-        'payer'          => $persona,
-        'buyer'          => $persona,
+        'totalAmount'    => 0,
+        'taxAmount'      => 0,
+        'devolutionBase' => 0,
+        'tipAmount'      => 0,
+        'payer'          => $payer,
+        'buyer'          => $buyer,
         'shipping'       => $persona,
-        'ipAddress'      => "127.0.0.1" ,
+        'ipAddress'      => $this->getIp() ,
         'userAgent'      => $_SERVER['HTTP_USER_AGENT'] );
 
       }
+
+     /*
+      *
+      * function que se encarga de captar la direccion ip
+      *
+      */
+     private function getIp()
+     {
+           if (isset($_SERVER["HTTP_CLIENT_IP"])) {
+               return $_SERVER["HTTP_CLIENT_IP"];
+           } elseif (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+               return $_SERVER["HTTP_X_FORWARDED_FOR"];
+           } elseif (isset($_SERVER["HTTP_X_FORWARDED"])) {
+               return $_SERVER["HTTP_X_FORWARDED"];
+           } elseif (isset($_SERVER["HTTP_FORWARDED_FOR"])) {
+               return $_SERVER["HTTP_FORWARDED_FOR"];
+           } elseif (isset($_SERVER["HTTP_FORWARDED"])) {
+               return $_SERVER["HTTP_FORWARDED"];
+           } else {
+               return $_SERVER["REMOTE_ADDR"];
+           }
+     }
 
 }

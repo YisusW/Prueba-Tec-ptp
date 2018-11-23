@@ -90,12 +90,12 @@ class DatabaseDesarrollo extends Migration
         Schema::create('transaction', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('payer_id');
-            $table->unsignedInteger('bayer_id');
+            $table->unsignedInteger('buyer_id');
             $table->unsignedInteger('bank_id');
             $table->string('status');
             $table->timestamps();
             $table->foreign('payer_id')->references('id')->on('person');
-            $table->foreign('bayer_id')->references('id')->on('person');
+            $table->foreign('buyer_id')->references('id')->on('person');
             $table->foreign('bank_id')->references('id')->on('bank');
         });
         $this->register();

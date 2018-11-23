@@ -66,4 +66,42 @@ class PersonController extends Controller
           ->first();
           return ( count((array)$result)>0 ) ? false : true ;
     }
+
+    /**
+     *
+     * @return object
+     */
+
+     public function getPersonById( $id )
+     {
+          $select = ["document",
+          "document_type",
+          "first_name",
+          "last_name",
+          "company",
+          "email",
+          "address",
+          "city_id",
+          "phone",
+          "cell_phone"];
+          $person = Person::where('id' , $id)->get($select)->first();
+
+          $person = $this->getCityByIdPerson($person);
+
+          return ( $person ) ? $person : false ;
+     }
+    /**
+     *
+     * @return object
+     */
+     public function getCityByIdPerson($person)
+     {
+          if( $person == false ) return false;
+          $city_con = new \PlaceToPay\Http\Controllers\CityController();
+          $city = $city_con->getCityById($person->city_id);
+          $person->city = $city->description;
+          $person->province = \PlaceToPay\Http\Controllers\DepartamentController::getDepartament($city->state_id);
+          $person->country = "CO";
+          return $person;
+     }
 }
