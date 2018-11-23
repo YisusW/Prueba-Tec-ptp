@@ -47512,6 +47512,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["personas"],
@@ -47521,7 +47525,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       type_person: [],
       method_pay: "",
       type_client: "",
-      banks_selected: ""
+      banks_selected: "",
+      mount: ""
     };
   },
   mounted: function mounted() {
@@ -47548,6 +47553,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         "tipo_cliente": this.type_client,
         "bank_code": this.banks_selected,
         "method_pay": this.method_pay,
+        "mount": this.mount,
         "comprador": this.personas.comprador,
         "pagador": this.personas.pagador
       };
@@ -47733,6 +47739,34 @@ var render = function() {
                       )
                     })
                   )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [
+                    _vm._v("Monto a pagar $")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.mount,
+                        expression: "mount"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "numeric", value: "" },
+                    domProps: { value: _vm.mount },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.mount = $event.target.value
+                      }
+                    }
+                  })
                 ]),
                 _vm._v(" "),
                 _c(

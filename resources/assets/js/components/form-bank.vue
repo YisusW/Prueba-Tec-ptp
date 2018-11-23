@@ -30,6 +30,10 @@
                                       :value="value.bankCode">{{ value.bankName }} </option>
                             </select>
                           </div>
+                          <div class="form-group">
+                            <label for="">Monto a pagar $</label>
+                            <input type="numeric" class="form-control" value="" v-model="mount">
+                          </div>
 
                           <button v-on:click="register"  type="button" name="button" class="btn btn-success btn-block" >Enviar</button>
                       </form>
@@ -50,7 +54,8 @@
             type_person   : [],
             method_pay    : "",
             type_client   : "",
-            banks_selected: ""
+            banks_selected: "",
+            mount : ""
           }
         },
         mounted() {
@@ -78,6 +83,7 @@
                 "tipo_cliente" : this.type_client,
                 "bank_code"    : this.banks_selected,
                 "method_pay"   : this.method_pay,
+                "mount"        : this.mount,
                 "comprador"    : this.personas.comprador,
                 "pagador"      : this.personas.pagador
                };

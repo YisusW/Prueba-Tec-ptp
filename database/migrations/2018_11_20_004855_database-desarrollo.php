@@ -82,6 +82,7 @@ class DatabaseDesarrollo extends Migration
             $table->string('method_pay');
             $table->string('code_bank');
             $table->unsignedInteger('type_client_id');
+            $table->double('money');
             $table->boolean('status');
             $table->timestamps();
             $table->foreign('type_client_id')->references('id')->on('type_client');
@@ -92,6 +93,10 @@ class DatabaseDesarrollo extends Migration
             $table->unsignedInteger('payer_id');
             $table->unsignedInteger('buyer_id');
             $table->unsignedInteger('bank_id');
+            $table->string('transaction_id');
+            $table->string('bank_currency');
+            $table->string('session_id');
+            $table->string('trazability_code');
             $table->string('status');
             $table->timestamps();
             $table->foreign('payer_id')->references('id')->on('person');

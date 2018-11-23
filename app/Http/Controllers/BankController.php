@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use PlaceToPay\BankList;
 use PlaceToPay\Bank;
 use PlaceToPay\Http\Controllers\PersonController;
+use PlaceToPay\Http\Controllers\Transaction;
+use PlaceToPay\Http\Controllers\PlaceToPay\Soap;
 
 class BankController extends Controller
 {
@@ -60,18 +62,34 @@ class BankController extends Controller
      *
      * @return boolean-colecction
      */
-    public function store(Request $request,Bank $bank)
+    public function store(Request $request,Bank $bank,Soap $soap)
     {
           $bank = $this->getModel();
 
-          $result = $this->saveBank($bank, (object) $request->all());
+          $banco = $this->saveBank($bank, (object) $request->all());
 
-          if ($result == false) {
+          if ($banco == false) {
               return response()->json(array('result' => 0 , 'message' => 'No se pudo registrar el formulario' ));
           } else {
-              $pagador = $this->getPerson($request->pagador);
-              $comprador = $this->getPerson($request->comprador);
-              $banco = $result;
+              $pagador = $this->getPerson($request->pagador)->toArray();
+              $comprador = $this->getPerson($request->comprador)->toArray();
+              $banco->type_client = TypeClientController::getTypeClient($banco->type_client_id);
+              $transaction_info = Transaction::createTransaction($pagador, $comprador, $banco);
+
+              $respuesta = $soap->createTransaction($transaction_info);
+
+              if ( $respuesta && isset($respuesta->createTransactionResult) ) {
+                  $datos = Transaction::saveResponseTransaction($request->pagador, $request->comprador, $banco->id, $respuesta->createTransactionResult);
+
+                  $response = array('result' => 1 ,
+                  'url' => $respuesta->createTransactionResult->bankURL,
+                  'message' => $respuesta->createTransactionResult->responseReasonText);
+
+                  return response()->json($response);
+
+              } else {
+                  return response()->json(array('result' => 0 , 'message' => 'No se pudo registrar el formulario' ));
+              }
           }
 
           return ($bank->save()) ? $bank : false ;
@@ -87,8 +105,9 @@ class BankController extends Controller
            $bank->type_client_id = $datos->tipo_cliente;
            $bank->code_bank = $datos->bank_code;
            $bank->method_pay = $datos->method_pay;
+           $bank->money = $datos->mount;
            $bank->status = 1;
-           return ($bank->save()) ? true : false ;
+           return ($bank->save()) ? $bank : false ;
      }
 
      /**

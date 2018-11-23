@@ -28,4 +28,12 @@ class TypeClientController extends Controller
     {
         return $type_client->where('status',1)->get(["id","description"]);
     }
+    /**
+     *  obtener tipo de cliente en especifico
+     * @return string
+     */
+    public static function getTypeClient($id)
+    {
+        return TypeClient::where('id',$id)->get(["description"])->first()->description;
+    }
 }
