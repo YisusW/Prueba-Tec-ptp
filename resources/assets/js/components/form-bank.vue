@@ -7,8 +7,6 @@
 
                     <div class="card-body">
 
-                    
-
                     <div v-if="transaction!=null" class="alert alert-info">
                         <strong>Información de la transacción</strong> Estatus : {{transaction}}
                         <br>
@@ -67,17 +65,17 @@
       props : ["personas"],
         data :function (){
           return {
-            banks         : [],
-            type_person   : [],
-            method_pay    : "",
-            type_client   : "",
-            banks_selected: "",
-            mount         : "",
-            url_pse       : null,
-            message_saved : null,
+            banks          : [],
+            type_person    : [],
+            method_pay     : "",
+            type_client    : "",
+            banks_selected : "",
+            mount          : "",
+            url_pse        : null,
+            message_saved  : null,
             id_transaction : null,
-            transaction : null,
-            fecha_status: "",
+            transaction    : null,
+            fecha_status   : "",
           }
         },
         mounted() {
@@ -144,16 +142,18 @@
           },
           /** buscar informacion de la transactino */
           buscarTransaction : function (){
+
             let data = { transaction_id : this.id_transaction }
+
             axios.post('/getTransactionstatus' , data  ).then((response) => {
+
               if (response.data.result == 1) {
 
                   this.message_saved = "transaction"
-                  this.transaction = response.data.data.responseReasonText
-                  console.log(response.data.data.responseReasonText)
-                  this.fecha_status =  response.data.data.requestDate
-              } else {
+                  this.transaction   = response.data.data.responseReasonText
+                  this.fecha_status  = response.data.data.requestDate
 
+              } else {
                   this.message_saved = response.data.message
               }
 

@@ -47531,8 +47531,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["personas"],
@@ -47618,15 +47616,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this4 = this;
 
       var data = { transaction_id: this.id_transaction };
+
       axios.post('/getTransactionstatus', data).then(function (response) {
+
         if (response.data.result == 1) {
 
           _this4.message_saved = "transaction";
           _this4.transaction = response.data.data.responseReasonText;
-          console.log(response.data.data.responseReasonText);
           _this4.fecha_status = response.data.data.requestDate;
         } else {
-
           _this4.message_saved = response.data.message;
         }
       });
