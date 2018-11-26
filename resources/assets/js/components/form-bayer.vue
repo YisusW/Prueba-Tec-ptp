@@ -77,7 +77,7 @@
                         </div>
                         <!-- telefono -->
                         <div class="form-group">
-                            <label for="">Téfono (fíjo)</label>
+                            <label for="">Teléfono (fíjo)</label>
                             <input type="text" name="" class="form-control" value=""  v-model="phone">
                         </div>
                         <!-- Celular -->
