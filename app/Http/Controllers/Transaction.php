@@ -12,7 +12,7 @@ class Transaction extends Controller
      *  Funcion que le da el formato oo estructura de como se envia la transaccion a PTP
      *  @return array
      */
-    public static function createTransaction($buyer, $payer, $bank)
+    public static function createDataTransaction($buyer, $payer, $bank)
     {
          $bank->type_client = ($bank->type_client == 'Persona') ? 0 : 1 ;
          $payer = self::formatArray((object) $payer);
@@ -59,7 +59,7 @@ class Transaction extends Controller
            }
      }
      /**
-      *   Calcular el 19% de el monto mandado
+      *   Calcular el 19% de el monto mandado desde la interfaz
       *
       */
      private static function calculateTax( $money )
@@ -91,7 +91,6 @@ class Transaction extends Controller
 
      /**
       *    Save Response of Place to Pay
-      *
       */
       public static function saveResponseTransaction($id_payer, $id_buyer, $id_bank ,$response_saop)
       {
@@ -100,10 +99,9 @@ class Transaction extends Controller
             self::$model->buyer_id         = $id_buyer;
             self::$model->bank_id          = $id_bank;
             self::$model->transaction_id   = $response_saop->transactionID;
-            self::$model->bank_currency    = $response_saop->bankCurrency;
             self::$model->session_id       = $response_saop->sessionID;
             self::$model->trazability_code = $response_saop->trazabilityCode;
-            self::$model->status           = $response_saop->returnCode;
+            self::$model->status           = $response_saop->transactionState;
 
             return ( self::$model->save() ) ? self::$model : false ;
       }

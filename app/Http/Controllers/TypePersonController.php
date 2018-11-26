@@ -32,7 +32,7 @@ class TypePersonController extends Controller
     }
     /**
      *  verifica si el tipo de persona existe o
-     * @return boolean
+     *  @return boolean
      */
     public function checkTypePerson($description)
     {
@@ -57,7 +57,7 @@ class TypePersonController extends Controller
     /**
      * funcion para registrar el tipo de persona haciendo peticiones desde el navegador
      * @return object
-     **/
+     */
     public function store(Request $request)
     {
          //validar datos entrantes y  luego registrar (Pendiente por hacer)
