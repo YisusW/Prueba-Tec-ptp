@@ -31,7 +31,7 @@ class DatabaseDesarrollo extends Migration
             $table->foreign('country_id')->references('id')->on('country');
         });
 
-        // tabla state
+        // tabla city
         Schema::create('city', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
@@ -94,7 +94,6 @@ class DatabaseDesarrollo extends Migration
             $table->unsignedInteger('buyer_id');
             $table->unsignedInteger('bank_id');
             $table->string('transaction_id');
-            $table->string('bank_currency');
             $table->string('session_id');
             $table->string('trazability_code');
             $table->string('status');
@@ -104,45 +103,6 @@ class DatabaseDesarrollo extends Migration
             $table->foreign('bank_id')->references('id')->on('bank');
         });
         $this->register();
-    }
-
-    private function register()
-    {
-        \DB::table('country')->insert(array(
-               'description'  => 'Colombia',
-               'status' => 1
-        ));
-        \DB::table('state')->insert(array(
-               'description'  => 'Antioquia',
-               'country_id' => 1,
-               'status' => 1
-        ));
-        \DB::table('city')->insert(array(
-               'description'  => 'Medellin',
-               'state_id' => 1,
-               'status' => 1
-        ));
-        $one = array(
-                'description'  => 'Natural',
-                'status' => 1
-              );
-        $two = array(
-                      'description'  => 'Juridica',
-                      'status' => 1
-              );
-        \DB::table('type_person')->insert($one);
-        \DB::table('type_person')->insert($two);
-        /* save the first type_client */
-        $one = array(
-                  'description'  => 'Persona',
-                  'status' => 1
-              );
-        $tow = array(
-                  'description'  => 'Empresa',
-                  'status' => 1
-              );
-        \DB::table('type_client')->insert($one);
-        \DB::table('type_client')->insert($tow);
     }
 
     /**
@@ -161,4 +121,49 @@ class DatabaseDesarrollo extends Migration
         Schema::drop('state');
         schema::drop('country');
     }
+
+    /**
+     *
+     *  Function que retorna los registros para los modulos necesarios (básicos)
+     *  @return rows
+     */
+    private function register()
+    {
+         \DB::table('country')->insert(array(
+                'description'  => 'Colombia',
+                'status' => 1
+         ));
+         \DB::table('state')->insert(array(
+                'description'  => 'Antioquia',
+                'country_id' => 1,
+                'status' => 1
+         ));
+         \DB::table('city')->insert(array(
+                'description'  => 'Medellin',
+                'state_id' => 1,
+                'status' => 1
+         ));
+         $one = array(
+                 'description'  => 'Natural',
+                 'status' => 1
+               );
+         $two = array(
+                       'description'  => 'Juridica',
+                       'status' => 1
+               );
+         \DB::table('type_person')->insert($one);
+         \DB::table('type_person')->insert($two);
+         /* save the first type_client */
+         $one = array(
+                   'description'  => 'Persona',
+                   'status' => 1
+               );
+         $two = array(
+                   'description'  => 'Empresa',
+                   'status' => 1
+               );
+         \DB::table('type_client')->insert($one);
+         \DB::table('type_client')->insert($two);
+    }
+
 }
