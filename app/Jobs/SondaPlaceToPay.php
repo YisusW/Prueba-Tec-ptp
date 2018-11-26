@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use PlaceToPay\Http\Controllers\PlaceToPay\Soap;
+use PlaceToPay\Http\Controllers\Transaction as TransactionController;
 use PlaceToPay\Transaction;
 
 class SondaPlaceToPay implements ShouldQueue
@@ -40,8 +41,11 @@ class SondaPlaceToPay implements ShouldQueue
              $result = $this->soap->getTransactionInformation($transaction);
              if ( $result && $result->getTransactionInformationResult ) {
                if ( $result->getTransactionInformationResult->transactionState != $value->status) {
+
                     $value->status = $result->getTransactionInformationResult->transactionState;
-                    $value->save();
+                    if ($value->save()) {
+                       $actualizar = TransactionController::updateTransaction($value->transaction_id , $result->getTransactionInformationResult->transactionState);
+                    }
                }
              }
         }

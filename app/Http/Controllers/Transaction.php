@@ -106,4 +106,17 @@ class Transaction extends Controller
             return ( self::$model->save() ) ? self::$model : false ;
       }
 
+      /**
+       * Actualizar una transaction en espeficifico
+       * @return save
+       */
+
+
+      public static function updateTransaction( $transaction , $status )
+      {
+            self::$model = ResponseSoap::where('transaction_id' ,$transaction)->get()->first();
+            self::$model->status = $status;
+            return ( self::$model->save() ) ? true : false ;
+      }
+
 }

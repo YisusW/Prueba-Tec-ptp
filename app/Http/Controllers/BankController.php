@@ -90,7 +90,8 @@ class BankController extends Controller
                     $datos = Transaction::saveResponseTransaction($request->pagador, $request->comprador, $banco->id, $status->getTransactionInformationResult);
 
                     if ( $datos != false ) {
-                       $this->activarSonda();
+                      
+                        $this->activarSonda();
                     }
 
 
